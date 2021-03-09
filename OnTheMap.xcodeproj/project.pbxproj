@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		FE68FCBC25F3B79F0021F710 /* LoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE68FCBB25F3B79F0021F710 /* LoginButton.swift */; };
+		FE68FCBC25F3B79F0021F710 /* RoundButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE68FCBB25F3B79F0021F710 /* RoundButton.swift */; };
 		FE68FCCA25F47B370021F710 /* UdacityClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE68FCC925F47B370021F710 /* UdacityClient.swift */; };
 		FE68FCCF25F47C790021F710 /* CreateSessionRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE68FCCE25F47C790021F710 /* CreateSessionRequest.swift */; };
 		FE68FCD425F47F1F0021F710 /* CreateSessionResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE68FCD325F47F1F0021F710 /* CreateSessionResponse.swift */; };
@@ -15,6 +15,7 @@
 		FE68FCE025F50E500021F710 /* NavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE68FCDF25F50E500021F710 /* NavigationViewController.swift */; };
 		FE68FCE425F517C20021F710 /* LocationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE68FCE325F517C20021F710 /* LocationsViewController.swift */; };
 		FE68FCE725F519DE0021F710 /* AddLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE68FCE625F519DE0021F710 /* AddLocationViewController.swift */; };
+		FE68FCEA25F7BB340021F710 /* AddLocationMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE68FCE925F7BB340021F710 /* AddLocationMapViewController.swift */; };
 		FEB8C8C225F3307D003BA5D0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEB8C8C125F3307D003BA5D0 /* AppDelegate.swift */; };
 		FEB8C8C425F3307D003BA5D0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEB8C8C325F3307D003BA5D0 /* SceneDelegate.swift */; };
 		FEB8C8C625F3307D003BA5D0 /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEB8C8C525F3307D003BA5D0 /* AuthViewController.swift */; };
@@ -24,7 +25,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		FE68FCBB25F3B79F0021F710 /* LoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginButton.swift; sourceTree = "<group>"; };
+		FE68FCBB25F3B79F0021F710 /* RoundButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundButton.swift; sourceTree = "<group>"; };
 		FE68FCC925F47B370021F710 /* UdacityClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UdacityClient.swift; sourceTree = "<group>"; };
 		FE68FCCE25F47C790021F710 /* CreateSessionRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateSessionRequest.swift; sourceTree = "<group>"; };
 		FE68FCD325F47F1F0021F710 /* CreateSessionResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateSessionResponse.swift; sourceTree = "<group>"; };
@@ -32,6 +33,7 @@
 		FE68FCDF25F50E500021F710 /* NavigationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationViewController.swift; sourceTree = "<group>"; };
 		FE68FCE325F517C20021F710 /* LocationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationsViewController.swift; sourceTree = "<group>"; };
 		FE68FCE625F519DE0021F710 /* AddLocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddLocationViewController.swift; sourceTree = "<group>"; };
+		FE68FCE925F7BB340021F710 /* AddLocationMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddLocationMapViewController.swift; sourceTree = "<group>"; };
 		FEB8C8BE25F3307D003BA5D0 /* OnTheMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OnTheMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FEB8C8C125F3307D003BA5D0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FEB8C8C325F3307D003BA5D0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -114,6 +116,7 @@
 				FE68FCDF25F50E500021F710 /* NavigationViewController.swift */,
 				FE68FCE325F517C20021F710 /* LocationsViewController.swift */,
 				FE68FCE625F519DE0021F710 /* AddLocationViewController.swift */,
+				FE68FCE925F7BB340021F710 /* AddLocationMapViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -124,7 +127,7 @@
 				FEB8C8C725F3307D003BA5D0 /* Main.storyboard */,
 				FEB8C8CA25F3307F003BA5D0 /* Assets.xcassets */,
 				FEB8C8CC25F3307F003BA5D0 /* LaunchScreen.storyboard */,
-				FE68FCBB25F3B79F0021F710 /* LoginButton.swift */,
+				FE68FCBB25F3B79F0021F710 /* RoundButton.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -213,9 +216,10 @@
 				FE68FCE425F517C20021F710 /* LocationsViewController.swift in Sources */,
 				FEB8C8C625F3307D003BA5D0 /* AuthViewController.swift in Sources */,
 				FE68FCCF25F47C790021F710 /* CreateSessionRequest.swift in Sources */,
+				FE68FCEA25F7BB340021F710 /* AddLocationMapViewController.swift in Sources */,
 				FE68FCE025F50E500021F710 /* NavigationViewController.swift in Sources */,
 				FE68FCE725F519DE0021F710 /* AddLocationViewController.swift in Sources */,
-				FE68FCBC25F3B79F0021F710 /* LoginButton.swift in Sources */,
+				FE68FCBC25F3B79F0021F710 /* RoundButton.swift in Sources */,
 				FE68FCD425F47F1F0021F710 /* CreateSessionResponse.swift in Sources */,
 				FE68FCDC25F4D4620021F710 /* MapViewController.swift in Sources */,
 				FEB8C8C225F3307D003BA5D0 /* AppDelegate.swift in Sources */,

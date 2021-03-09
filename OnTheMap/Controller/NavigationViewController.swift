@@ -25,9 +25,7 @@ class NavigationViewController: UIViewController {
     }
     
     @objc func addLocation() {
-        let addLocationViewController = self.storyboard!.instantiateViewController(withIdentifier: "AddLocationViewController") as! AddLocationViewController
-        
-        navigationController!.pushViewController(addLocationViewController, animated: true)
+        performSegue(withIdentifier: "AddLocationSegue", sender: self)
     }
     
     @objc func refreshData() {

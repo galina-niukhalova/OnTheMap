@@ -10,8 +10,6 @@ import UIKit
 class AuthViewController: UIViewController {
     @IBOutlet var emailTextField: UITextField!
     @IBOutlet var passwordTextField: UITextField!
-    @IBOutlet var loginButton: LoginButton!
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()

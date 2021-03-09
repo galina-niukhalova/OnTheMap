@@ -1,5 +1,5 @@
 //
-//  LoginButton.swift
+//  RoundButton.swift
 //  OnTheMap
 //
 //  Created by Galina Niukhalova on 6/3/21.
@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class LoginButton: UIButton {
+class RoundButton: UIButton {
     
     override func awakeFromNib() {
         super.awakeFromNib()
