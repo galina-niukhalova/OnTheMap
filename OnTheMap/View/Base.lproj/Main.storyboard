@@ -125,7 +125,6 @@
         <!--Map Navigation Controller-->
         <scene sceneID="lEs-Jy-ToJ">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="i9v-cH-qgN" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <navigationController title="Map Navigation Controller" id="MEU-bX-XVR" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="" image="icon_mapview-deselected" id="sln-OX-ret"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="EGT-JB-DGT">
@@ -136,6 +135,7 @@
                         <segue destination="6wu-s9-fpD" kind="relationship" relationship="rootViewController" id="uck-jf-i4M"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="i9v-cH-qgN" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="522" y="-314"/>
         </scene>
@@ -149,6 +149,7 @@
                     </mapView>
                     <navigationItem key="navigationItem" id="pNI-LZ-jkk"/>
                     <connections>
+                        <outlet property="mapView" destination="GQV-A5-ChU" id="oHc-bC-t5b"/>
                         <segue destination="BzR-9J-iF0" kind="presentation" identifier="AddLocationSegue" id="zM0-N2-ua8"/>
                     </connections>
                 </viewController>
@@ -159,7 +160,6 @@
         <!--Locations Navigation Controller-->
         <scene sceneID="Ukt-TA-dVI">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="aUq-kB-u4v" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <navigationController title="Locations Navigation Controller" id="DdF-wb-25z" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="" image="icon_listview-deselected" id="Qd2-xi-f3l"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="W7D-bG-z8n">
@@ -170,6 +170,7 @@
                         <segue destination="PGl-1j-b2N" kind="relationship" relationship="rootViewController" id="uTf-61-aGf"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="aUq-kB-u4v" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="532" y="374"/>
         </scene>
@@ -223,7 +224,6 @@
         <!--Add Location View Controller-->
         <scene sceneID="sKg-IM-lqe">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="ldG-vh-a8c" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <viewController storyboardIdentifier="AddLocationViewController" title="Add Location" id="MQX-ud-Emf" userLabel="Add Location View Controller" customClass="AddLocationViewController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="D6g-rJ-jyh">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
@@ -297,6 +297,7 @@
                         </barButtonItem>
                     </navigationItem>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ldG-vh-a8c" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2867" y="92"/>
         </scene>
@@ -344,7 +345,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="aWl-IW-1IM"/>
+        <segue reference="zM0-N2-ua8"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="icon_listview-deselected" width="75" height="50"/>
