@@ -146,6 +146,9 @@
                     <mapView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" id="GQV-A5-ChU">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <connections>
+                            <outlet property="delegate" destination="6wu-s9-fpD" id="oOi-ri-fdn"/>
+                        </connections>
                     </mapView>
                     <navigationItem key="navigationItem" id="pNI-LZ-jkk"/>
                     <connections>
@@ -185,6 +188,33 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="PKw-e3-A1l">
                                 <rect key="frame" x="0.0" y="88" width="414" height="725"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="LocationsTableCellIdentifier" textLabel="aJX-tZ-DkF" imageView="z2f-gq-SV0" style="IBUITableViewCellStyleDefault" id="PzD-hw-4cE" userLabel="LocationTableViewCell" customClass="LocationTableViewCell" customModule="OnTheMap" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="PzD-hw-4cE" id="qbb-2N-9BH">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="aJX-tZ-DkF">
+                                                    <rect key="frame" x="59" y="0.0" width="335" height="43.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" image="icon_pin" id="z2f-gq-SV0">
+                                                    <rect key="frame" x="20" y="9.5" width="24" height="24"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                </imageView>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="PGl-1j-b2N" id="atN-qh-cSl"/>
+                                    <outlet property="delegate" destination="PGl-1j-b2N" id="I2c-g9-PoK"/>
+                                </connections>
                             </tableView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="CBd-6W-gtR"/>
@@ -198,6 +228,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="uSU-Lu-bLP"/>
                     <connections>
+                        <outlet property="tableView" destination="PKw-e3-A1l" id="rN0-r5-oqu"/>
                         <segue destination="BzR-9J-iF0" kind="presentation" identifier="AddLocationSegue" id="aWl-IW-1IM"/>
                     </connections>
                 </viewController>
@@ -239,7 +270,7 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="GYJ-Fk-Yrf">
                                 <rect key="frame" x="64" y="268" width="286" height="136"/>
                                 <subviews>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tTV-r7-Qg6">
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Location" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tTV-r7-Qg6">
                                         <rect key="frame" x="0.0" y="0.0" width="286" height="40"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="40" id="Jet-2G-zXG"/>
@@ -247,7 +278,7 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ux0-Oe-Ck5">
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="URL" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ux0-Oe-Ck5">
                                         <rect key="frame" x="0.0" y="48" width="286" height="40"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="40" id="53G-SW-Xff"/>
@@ -296,6 +327,10 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="URLTextField" destination="ux0-Oe-Ck5" id="iIh-hr-445"/>
+                        <outlet property="locationTextField" destination="tTV-r7-Qg6" id="KLc-RA-n8c"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ldG-vh-a8c" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -338,6 +373,9 @@
                             <constraint firstItem="ic3-jk-fPx" firstAttribute="leading" secondItem="b5T-wf-bSN" secondAttribute="leading" id="wFF-lX-bS8"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="mapView" destination="ic3-jk-fPx" id="Vtg-00-ft6"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Wz9-TK-gvk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -350,6 +388,7 @@
     <resources>
         <image name="icon_listview-deselected" width="75" height="50"/>
         <image name="icon_mapview-deselected" width="75" height="50"/>
+        <image name="icon_pin" width="24" height="24"/>
         <image name="icon_world" width="52" height="67"/>
         <image name="logo-u" width="62" height="62"/>
         <systemColor name="systemBackgroundColor">

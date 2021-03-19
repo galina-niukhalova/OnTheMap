@@ -19,6 +19,10 @@
 		FE68FCEE25F910740021F710 /* GetStudentLocationsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE68FCED25F910740021F710 /* GetStudentLocationsResponse.swift */; };
 		FE68FCF525F91AF80021F710 /* StudentLocationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE68FCF425F91AF80021F710 /* StudentLocationModel.swift */; };
 		FE68FCF925F91B8C0021F710 /* PostStudentLocationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE68FCF825F91B8C0021F710 /* PostStudentLocationResponse.swift */; };
+		FE68FCFC25FC74490021F710 /* DeleteSessionResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE68FCFB25FC74490021F710 /* DeleteSessionResponse.swift */; };
+		FE68FCFF25FCED3C0021F710 /* LocationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE68FCFE25FCED3C0021F710 /* LocationTableViewCell.swift */; };
+		FE68FD0225FE51950021F710 /* GetUserDataResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE68FD0125FE51950021F710 /* GetUserDataResponse.swift */; };
+		FE68FD142604EDF00021F710 /* MKMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE68FD132604EDF00021F710 /* MKMapView.swift */; };
 		FEB8C8C225F3307D003BA5D0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEB8C8C125F3307D003BA5D0 /* AppDelegate.swift */; };
 		FEB8C8C425F3307D003BA5D0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEB8C8C325F3307D003BA5D0 /* SceneDelegate.swift */; };
 		FEB8C8C625F3307D003BA5D0 /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEB8C8C525F3307D003BA5D0 /* AuthViewController.swift */; };
@@ -40,6 +44,10 @@
 		FE68FCED25F910740021F710 /* GetStudentLocationsResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetStudentLocationsResponse.swift; sourceTree = "<group>"; };
 		FE68FCF425F91AF80021F710 /* StudentLocationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentLocationModel.swift; sourceTree = "<group>"; };
 		FE68FCF825F91B8C0021F710 /* PostStudentLocationResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostStudentLocationResponse.swift; sourceTree = "<group>"; };
+		FE68FCFB25FC74490021F710 /* DeleteSessionResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteSessionResponse.swift; sourceTree = "<group>"; };
+		FE68FCFE25FCED3C0021F710 /* LocationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationTableViewCell.swift; sourceTree = "<group>"; };
+		FE68FD0125FE51950021F710 /* GetUserDataResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetUserDataResponse.swift; sourceTree = "<group>"; };
+		FE68FD132604EDF00021F710 /* MKMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MKMapView.swift; sourceTree = "<group>"; };
 		FEB8C8BE25F3307D003BA5D0 /* OnTheMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OnTheMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FEB8C8C125F3307D003BA5D0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FEB8C8C325F3307D003BA5D0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -83,6 +91,8 @@
 				FE68FCD325F47F1F0021F710 /* CreateSessionResponse.swift */,
 				FE68FCED25F910740021F710 /* GetStudentLocationsResponse.swift */,
 				FE68FCF825F91B8C0021F710 /* PostStudentLocationResponse.swift */,
+				FE68FCFB25FC74490021F710 /* DeleteSessionResponse.swift */,
+				FE68FD0125FE51950021F710 /* GetUserDataResponse.swift */,
 			);
 			path = "Udacity Response";
 			sourceTree = "<group>";
@@ -93,6 +103,14 @@
 				FE68FCF425F91AF80021F710 /* StudentLocationModel.swift */,
 			);
 			path = Data;
+			sourceTree = "<group>";
+		};
+		FE68FD122604EC2D0021F710 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				FE68FD132604EDF00021F710 /* MKMapView.swift */,
+			);
+			path = Extension;
 			sourceTree = "<group>";
 		};
 		FEB8C8B525F3307D003BA5D0 = {
@@ -114,6 +132,7 @@
 		FEB8C8C025F3307D003BA5D0 /* OnTheMap */ = {
 			isa = PBXGroup;
 			children = (
+				FE68FD122604EC2D0021F710 /* Extension */,
 				FEB8C8DB25F3312A003BA5D0 /* Model */,
 				FEB8C8D625F330BE003BA5D0 /* Controller */,
 				FEB8C8D925F33101003BA5D0 /* View */,
@@ -144,6 +163,7 @@
 				FEB8C8CA25F3307F003BA5D0 /* Assets.xcassets */,
 				FEB8C8CC25F3307F003BA5D0 /* LaunchScreen.storyboard */,
 				FE68FCBB25F3B79F0021F710 /* RoundButton.swift */,
+				FE68FCFE25FCED3C0021F710 /* LocationTableViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -231,6 +251,7 @@
 			files = (
 				FE68FCCA25F47B370021F710 /* UdacityClient.swift in Sources */,
 				FE68FCE425F517C20021F710 /* LocationsViewController.swift in Sources */,
+				FE68FD0225FE51950021F710 /* GetUserDataResponse.swift in Sources */,
 				FEB8C8C625F3307D003BA5D0 /* AuthViewController.swift in Sources */,
 				FE68FCCF25F47C790021F710 /* CreateSessionRequest.swift in Sources */,
 				FE68FCEA25F7BB340021F710 /* AddLocationMapViewController.swift in Sources */,
@@ -240,8 +261,11 @@
 				FE68FCD425F47F1F0021F710 /* CreateSessionResponse.swift in Sources */,
 				FE68FCEE25F910740021F710 /* GetStudentLocationsResponse.swift in Sources */,
 				FE68FCDC25F4D4620021F710 /* MapViewController.swift in Sources */,
+				FE68FD142604EDF00021F710 /* MKMapView.swift in Sources */,
 				FE68FCF525F91AF80021F710 /* StudentLocationModel.swift in Sources */,
+				FE68FCFC25FC74490021F710 /* DeleteSessionResponse.swift in Sources */,
 				FEB8C8C225F3307D003BA5D0 /* AppDelegate.swift in Sources */,
+				FE68FCFF25FCED3C0021F710 /* LocationTableViewCell.swift in Sources */,
 				FE68FCF925F91B8C0021F710 /* PostStudentLocationResponse.swift in Sources */,
 				FEB8C8C425F3307D003BA5D0 /* SceneDelegate.swift in Sources */,
 			);

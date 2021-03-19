@@ -10,6 +10,7 @@ import UIKit
 class AuthViewController: UIViewController {
     @IBOutlet var emailTextField: UITextField!
     @IBOutlet var passwordTextField: UITextField!
+    let udacitySignupUrl = "https://auth.udacity.com/sign-up"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,6 +26,11 @@ class AuthViewController: UIViewController {
     }
     
     @IBAction func handleSignup(_ sender: Any) {
+        // Open Udacity website in Safari
+        let app = UIApplication.shared
+        if let url = URL(string: udacitySignupUrl) {
+            app.open(url)
+        }
     }
 }
 

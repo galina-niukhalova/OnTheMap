@@ -8,21 +8,24 @@
 import Foundation
 
 class UdacityClient {
-    struct Auth {
-        static var sessionId = ""
-    }
+    static var accountId: String = ""
     
     enum Endpoints {
         static let base = "https://onthemap-api.udacity.com/v1"
         
         case session
-        case studentLocation
+        case studentLocation(String? = nil)
         case user(String)
         
         var stringValue: String {
             switch self {
             case .session: return Endpoints.base + "/session"
-            case .studentLocation: return Endpoints.base + "/StudentLocation"
+            case .studentLocation(let objectId):
+                if let objectId = objectId {
+                    return Endpoints.base + "/StudentLocation/\(objectId)"
+                } else {
+                    return Endpoints.base + "/StudentLocation?order=-updatedAt"
+                }
             case .user(let id): return Endpoints.base + "/users/\(id)"
             }
         }
@@ -40,7 +43,7 @@ class UdacityClient {
                            optional: TaskForPOSTRequestOptionalParams(headers: ["application/json" : "Accept"], firstNCharactersToSkip: 5)) {
             (response, error) in
             if let response = response {
-                Auth.sessionId = response.session.id
+                accountId = response.account.key
                 
                 complition(nil)
             } else {
@@ -49,11 +52,29 @@ class UdacityClient {
         }
     }
     
-// TODO
-    class func deleteSession() {}
+    class func deleteSession(complition: @escaping (Error?) -> Void) {
+        var request = URLRequest(url: Endpoints.session.url)
+        
+        request.httpMethod = "DELETE"
+        var xsrfCookie: HTTPCookie? = nil
+        let sharedCookieStorage = HTTPCookieStorage.shared
+        for cookie in sharedCookieStorage.cookies! {
+            if cookie.name == "XSRF-TOKEN" { xsrfCookie = cookie }
+        }
+        if let xsrfCookie = xsrfCookie {
+            request.setValue(xsrfCookie.value, forHTTPHeaderField: "X-XSRF-TOKEN")
+        }
+        let session = URLSession.shared
+        let task = session.dataTask(with: request) { data, response, error in
+            DispatchQueue.main.async {
+                complition(error)
+            }
+        }
+        task.resume()
+    }
     
     class func getStudentLocations(complition: @escaping ([StudentLocation], Error?) -> Void) {
-        taskForGETRequest(url: Endpoints.studentLocation.url, responseType: GetStudentLocationsResponse.self) { (response, error) in
+        taskForGETRequest(url: Endpoints.studentLocation().url, responseType: GetStudentLocationsResponse.self, optional: nil) { (response, error) in
             if let response = response {
                 complition(response.results, nil)
             } else {
@@ -64,7 +85,7 @@ class UdacityClient {
     
     class func postStudentLocation(studentLocation: StudentLocation, completion: @escaping (Bool, Error?) -> Void) {
         let body = studentLocation
-        taskForPOSTRequest(url: Endpoints.studentLocation.url,
+        taskForPOSTRequest(url: Endpoints.studentLocation().url,
                            body: body,
                            responseType: PostStudentLocationResponse.self,
                            optional: nil) {
@@ -78,16 +99,46 @@ class UdacityClient {
     }
     
 //    TODO
-    class func putStudentLocation() {}
-    
-//    TODO
-    class func getUserData() {
+    class func putStudentLocation(studentLocation: StudentLocation, completion: @escaping (Error?) -> Void) {
+//        let body = studentLocation
+
+//        var request = URLRequest(url: Endpoints.studentLocation(studentLocation.objectId).url)
         
+//        request.httpMethod = "PUT"
+//        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+//        request.httpBody = try! JSONEncoder().encode(body)
+//        let session = URLSession.shared
+//        let task = session.dataTask(with: request) { data, response, error in
+//            DispatchQueue.main.async {
+//                completion(error)
+//            }
+//        }
+//        task.resume()
+    }
+
+    class func getUserData(completion: @escaping (UserDataResponse?, Error?) -> Void) {
+        taskForGETRequest(url: Endpoints.user(accountId).url, responseType: UserDataResponse.self, optional: TaskForGETRequestOptionalParams(firstNCharactersToSkip: 5)) { (response, error) in
+            if error != nil {
+                DispatchQueue.main.async {
+                    completion(nil, error)
+                }
+            }
+            
+            if let response = response {
+                DispatchQueue.main.async {
+                    completion(response, nil)
+                }
+            }
+        }
     }
     
-    class func taskForGETRequest<ResponseType: Decodable>(url: URL, responseType: ResponseType.Type, completion: @escaping (ResponseType?, Error?) -> Void) -> Void {
+    struct TaskForGETRequestOptionalParams {
+        let firstNCharactersToSkip: Int
+    }
+    
+    class func taskForGETRequest<ResponseType: Decodable>(url: URL, responseType: ResponseType.Type, optional: TaskForGETRequestOptionalParams?, completion: @escaping (ResponseType?, Error?) -> Void) -> Void {
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
-            guard let data = data else {
+            guard var data = data else {
                 DispatchQueue.main.async {
                     completion(nil, error)
                 }
@@ -95,6 +146,9 @@ class UdacityClient {
             }
             
             let decoder = JSONDecoder()
+            if let firstNCharactersToSkip = optional?.firstNCharactersToSkip {
+                data = data.subdata(in: firstNCharactersToSkip..<data.count)
+            }
             
             do {
                 let responseObject = try decoder.decode(ResponseType.self, from: data)
@@ -120,7 +174,9 @@ class UdacityClient {
         var request = URLRequest(url: url)
         
         request.httpMethod = "POST"
-        request.httpBody = try! JSONEncoder().encode(body)
+        let json = try! JSONEncoder().encode(body)
+        print("taskForPOSTRequest, json: \(json)")
+        request.httpBody = json
         if let headers = optional?.headers {
             for (key, value) in headers {
                 request.addValue(key, forHTTPHeaderField: value)
