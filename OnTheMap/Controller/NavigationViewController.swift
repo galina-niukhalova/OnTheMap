@@ -7,6 +7,7 @@
 
 import UIKit
 import MapKit
+import FBSDKLoginKit
 
 class NavigationViewController: UIViewController {
     @IBOutlet var mapView: MKMapView!
@@ -49,9 +50,17 @@ class NavigationViewController: UIViewController {
     
     // Delete user session and change view controller to Auth
     @objc func handleLogout() {
-        UdacityClient.deleteSession { _ in
-            // Change root controller to AuthViewController
+        // User is logged in via FB
+        if let _ = AccessToken.current {
+            let loginManager = LoginManager()
+            loginManager.logOut()
             (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.changeRootViewController(identifier: "AuthViewController")
+        } else {
+            // User is logged in via Udacity credentials
+            UdacityClient.deleteSession { _ in
+                // Change root controller to AuthViewController
+                (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.changeRootViewController(identifier: "AuthViewController")
+            }
         }
     }
     

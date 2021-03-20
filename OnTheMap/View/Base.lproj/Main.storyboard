@@ -29,6 +29,9 @@
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" textContentType="username"/>
+                                        <connections>
+                                            <action selector="handleEmailChange:" destination="BYZ-38-t0r" eventType="editingChanged" id="3C2-lg-fbq"/>
+                                        </connections>
                                     </textField>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="64H-JK-R7E">
                                         <rect key="frame" x="0.0" y="48" width="286" height="40"/>
@@ -37,8 +40,11 @@
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" secureTextEntry="YES" textContentType="password"/>
+                                        <connections>
+                                            <action selector="handlePasswordChange:" destination="BYZ-38-t0r" eventType="editingChanged" id="mE6-YV-HYU"/>
+                                        </connections>
                                     </textField>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iU6-YD-clf" customClass="RoundButton" customModule="OnTheMap" customModuleProvider="target">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iU6-YD-clf" customClass="LoadingButton" customModule="OnTheMap" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="96" width="286" height="40"/>
                                         <color key="backgroundColor" red="0.0069179232229999998" green="0.56082111599999995" blue="0.7136339545" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
@@ -96,6 +102,7 @@
                     <navigationItem key="navigationItem" id="N4Z-8m-DAR"/>
                     <connections>
                         <outlet property="emailTextField" destination="1rF-cr-pmz" id="5Gn-ln-LCZ"/>
+                        <outlet property="loginButton" destination="iU6-YD-clf" id="TqV-ox-f33"/>
                         <outlet property="passwordTextField" destination="64H-JK-R7E" id="oFi-8S-WRf"/>
                     </connections>
                 </viewController>
