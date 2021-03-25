@@ -21,12 +21,13 @@
 		FE68FCF925F91B8C0021F710 /* PostStudentLocationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE68FCF825F91B8C0021F710 /* PostStudentLocationResponse.swift */; };
 		FE68FCFC25FC74490021F710 /* DeleteSessionResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE68FCFB25FC74490021F710 /* DeleteSessionResponse.swift */; };
 		FE68FCFF25FCED3C0021F710 /* LocationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE68FCFE25FCED3C0021F710 /* LocationTableViewCell.swift */; };
-		FE68FD0225FE51950021F710 /* GetUserDataResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE68FD0125FE51950021F710 /* GetUserDataResponse.swift */; };
 		FE68FD142604EDF00021F710 /* MKMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE68FD132604EDF00021F710 /* MKMapView.swift */; };
 		FE68FD18260627FE0021F710 /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE68FD17260627FE0021F710 /* UIViewController.swift */; };
 		FE68FD1B26062A9D0021F710 /* LoadingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE68FD1A26062A9D0021F710 /* LoadingButton.swift */; };
 		FE68FD1F2606357D0021F710 /* FacebookLogin in Frameworks */ = {isa = PBXBuildFile; productRef = FE68FD1E2606357D0021F710 /* FacebookLogin */; };
 		FE68FD212606357D0021F710 /* FacebookCore in Frameworks */ = {isa = PBXBuildFile; productRef = FE68FD202606357D0021F710 /* FacebookCore */; };
+		FE68FD2D2609B4E50021F710 /* StudentDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE68FD2C2609B4E50021F710 /* StudentDataModel.swift */; };
+		FE68FD31260B432D0021F710 /* PostStudentLocationRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE68FD30260B432D0021F710 /* PostStudentLocationRequest.swift */; };
 		FEB8C8C225F3307D003BA5D0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEB8C8C125F3307D003BA5D0 /* AppDelegate.swift */; };
 		FEB8C8C425F3307D003BA5D0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEB8C8C325F3307D003BA5D0 /* SceneDelegate.swift */; };
 		FEB8C8C625F3307D003BA5D0 /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEB8C8C525F3307D003BA5D0 /* AuthViewController.swift */; };
@@ -50,10 +51,11 @@
 		FE68FCF825F91B8C0021F710 /* PostStudentLocationResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostStudentLocationResponse.swift; sourceTree = "<group>"; };
 		FE68FCFB25FC74490021F710 /* DeleteSessionResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteSessionResponse.swift; sourceTree = "<group>"; };
 		FE68FCFE25FCED3C0021F710 /* LocationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationTableViewCell.swift; sourceTree = "<group>"; };
-		FE68FD0125FE51950021F710 /* GetUserDataResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetUserDataResponse.swift; sourceTree = "<group>"; };
 		FE68FD132604EDF00021F710 /* MKMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MKMapView.swift; sourceTree = "<group>"; };
 		FE68FD17260627FE0021F710 /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
 		FE68FD1A26062A9D0021F710 /* LoadingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingButton.swift; sourceTree = "<group>"; };
+		FE68FD2C2609B4E50021F710 /* StudentDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentDataModel.swift; sourceTree = "<group>"; };
+		FE68FD30260B432D0021F710 /* PostStudentLocationRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostStudentLocationRequest.swift; sourceTree = "<group>"; };
 		FEB8C8BE25F3307D003BA5D0 /* OnTheMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OnTheMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FEB8C8C125F3307D003BA5D0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FEB8C8C325F3307D003BA5D0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -89,6 +91,7 @@
 			isa = PBXGroup;
 			children = (
 				FE68FCCE25F47C790021F710 /* CreateSessionRequest.swift */,
+				FE68FD30260B432D0021F710 /* PostStudentLocationRequest.swift */,
 			);
 			path = "Udacity Requests";
 			sourceTree = "<group>";
@@ -100,7 +103,6 @@
 				FE68FCED25F910740021F710 /* GetStudentLocationsResponse.swift */,
 				FE68FCF825F91B8C0021F710 /* PostStudentLocationResponse.swift */,
 				FE68FCFB25FC74490021F710 /* DeleteSessionResponse.swift */,
-				FE68FD0125FE51950021F710 /* GetUserDataResponse.swift */,
 			);
 			path = "Udacity Response";
 			sourceTree = "<group>";
@@ -109,6 +111,7 @@
 			isa = PBXGroup;
 			children = (
 				FE68FCF425F91AF80021F710 /* StudentLocationModel.swift */,
+				FE68FD2C2609B4E50021F710 /* StudentDataModel.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -268,7 +271,6 @@
 			files = (
 				FE68FCCA25F47B370021F710 /* UdacityClient.swift in Sources */,
 				FE68FCE425F517C20021F710 /* LocationsViewController.swift in Sources */,
-				FE68FD0225FE51950021F710 /* GetUserDataResponse.swift in Sources */,
 				FEB8C8C625F3307D003BA5D0 /* AuthViewController.swift in Sources */,
 				FE68FCCF25F47C790021F710 /* CreateSessionRequest.swift in Sources */,
 				FE68FCEA25F7BB340021F710 /* AddLocationMapViewController.swift in Sources */,
@@ -279,9 +281,11 @@
 				FE68FCEE25F910740021F710 /* GetStudentLocationsResponse.swift in Sources */,
 				FE68FCDC25F4D4620021F710 /* MapViewController.swift in Sources */,
 				FE68FD142604EDF00021F710 /* MKMapView.swift in Sources */,
+				FE68FD31260B432D0021F710 /* PostStudentLocationRequest.swift in Sources */,
 				FE68FCF525F91AF80021F710 /* StudentLocationModel.swift in Sources */,
 				FE68FD18260627FE0021F710 /* UIViewController.swift in Sources */,
 				FE68FD1B26062A9D0021F710 /* LoadingButton.swift in Sources */,
+				FE68FD2D2609B4E50021F710 /* StudentDataModel.swift in Sources */,
 				FE68FCFC25FC74490021F710 /* DeleteSessionResponse.swift in Sources */,
 				FEB8C8C225F3307D003BA5D0 /* AppDelegate.swift in Sources */,
 				FE68FCFF25FCED3C0021F710 /* LocationTableViewCell.swift in Sources */,

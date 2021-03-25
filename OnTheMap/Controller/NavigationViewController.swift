@@ -10,11 +10,15 @@ import MapKit
 import FBSDKLoginKit
 
 class NavigationViewController: UIViewController {
-    @IBOutlet var mapView: MKMapView!
-    
     var studentLocations: [StudentLocation] {
         return (UIApplication.shared.delegate as! AppDelegate).studentLocations
     }
+    
+    var studentInformation: StudentData? {
+        return (UIApplication.shared.delegate as! AppDelegate).studentInformation
+    }
+    
+    var currentLocation: StudentLocation?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,7 +27,7 @@ class NavigationViewController: UIViewController {
         setNavigationItems()
     }
     
-    func setNavigationItems() {
+    func setNavigationItems(loading: Bool = false) {
         // Left items: Logout btn
         let logoutBtn = UIBarButtonItem.init(title: "LOGOUT", style: .plain, target: self, action: #selector(handleLogout));
         logoutBtn.setTitleTextAttributes([
@@ -33,18 +37,35 @@ class NavigationViewController: UIViewController {
         
         // Right items: refresh data and add location
         let addLocationBtn = UIBarButtonItem(image: UIImage(named: "icon_addpin"), style: .plain, target: self, action: #selector(addLocation))
-        let refreshButton = UIBarButtonItem(image: UIImage(named: "icon_refresh"), style: .plain, target: self, action: #selector(refreshData))
+        let refreshButton: UIBarButtonItem
+        
+        if loading {
+            let activityIndicator = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
+            refreshButton = UIBarButtonItem(customView: activityIndicator)
+            activityIndicator.startAnimating()
+        } else {
+            refreshButton = UIBarButtonItem(image: UIImage(named: "icon_refresh"), style: .plain, target: self, action: #selector(refreshData))
+        }
+        
         navigationItem.rightBarButtonItems = [addLocationBtn, refreshButton]
     }
     
-    // Fetch a new data and save result into delegate
+    // Fetch new data and save result into delegate
     @objc func refreshData() {
+        handleRefreshData {}
+    }
+    
+    func handleRefreshData(completion: @escaping () -> Void) {
+        setNavigationItems(loading: true)
         UdacityClient.getStudentLocations { (locations, error) in
+            self.setNavigationItems(loading: false)
+            
             if error != nil {
                 return
             }
             
             (UIApplication.shared.delegate as! AppDelegate).studentLocations = locations
+            completion()
         }
     }
     
@@ -66,7 +87,25 @@ class NavigationViewController: UIViewController {
     
     // Show AddLocation view controller
     @objc func addLocation() {
-        performSegue(withIdentifier: "AddLocationSegue", sender: self)
+        // check if user data exists
+        guard let _ = studentInformation else {
+            self.alert(message: "Please update your first and last name", title: "Student information doesn't exist")
+            return
+        }
+        
+        // check if the student already posted a location
+        if let currentLocation = studentLocations.first(where: {
+            $0.firstName == self.studentInformation!.firstName && $0.lastName == self.studentInformation!.lastName
+        }) {
+            self.confirmationAlert(
+                message: "You have already posted a student location. Would you like to overwrite your current location?",
+                title: "Confirm a new location",
+                confirmButtonTitle: "Overwrite",
+                onConfirm: { self.handleLocationOverwrite(currentLocation) }
+            )
+        } else {
+            performSegue(withIdentifier: "AddLocationSegue", sender: self)
+        }
     }
     
     // Func to be override to update table view and map
@@ -78,7 +117,12 @@ class NavigationViewController: UIViewController {
             let controller = segue.destination as! UINavigationController
             let addLocationViewController = controller.topViewController as! AddLocationViewController
             addLocationViewController.onAddLocationFinish = onAddLocationFinish
+            addLocationViewController.currentLocation = currentLocation
         }
     }
     
+    func handleLocationOverwrite(_ currentLocation: StudentLocation) {
+        self.currentLocation = currentLocation
+        performSegue(withIdentifier: "AddLocationSegue", sender: self)
+    }
 }

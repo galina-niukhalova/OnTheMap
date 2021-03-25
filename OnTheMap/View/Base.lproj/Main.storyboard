@@ -159,7 +159,7 @@
                     </mapView>
                     <navigationItem key="navigationItem" id="pNI-LZ-jkk"/>
                     <connections>
-                        <outlet property="mapView" destination="GQV-A5-ChU" id="oHc-bC-t5b"/>
+                        <outlet property="mapView" destination="GQV-A5-ChU" id="BWL-Y5-Geh"/>
                         <segue destination="BzR-9J-iF0" kind="presentation" identifier="AddLocationSegue" id="zM0-N2-ua8"/>
                     </connections>
                 </viewController>
@@ -284,6 +284,9 @@
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
+                                        <connections>
+                                            <action selector="handleLocationChange:" destination="MQX-ud-Emf" eventType="editingChanged" id="cEI-MO-UBI"/>
+                                        </connections>
                                     </textField>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="URL" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ux0-Oe-Ck5">
                                         <rect key="frame" x="0.0" y="48" width="286" height="40"/>
@@ -292,8 +295,11 @@
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
+                                        <connections>
+                                            <action selector="handleURLChange:" destination="MQX-ud-Emf" eventType="editingChanged" id="W1x-Rs-GOi"/>
+                                        </connections>
                                     </textField>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dtm-M4-qHh" customClass="RoundButton" customModule="OnTheMap" customModuleProvider="target">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dtm-M4-qHh" customClass="LoadingButton" customModule="OnTheMap" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="96" width="286" height="40"/>
                                         <color key="backgroundColor" red="0.0069179232229999998" green="0.56082111599999995" blue="0.7136339545" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
@@ -336,6 +342,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="URLTextField" destination="ux0-Oe-Ck5" id="iIh-hr-445"/>
+                        <outlet property="findLocationButton" destination="Dtm-M4-qHh" id="VOg-jb-J0C"/>
                         <outlet property="locationTextField" destination="tTV-r7-Qg6" id="KLc-RA-n8c"/>
                     </connections>
                 </viewController>
@@ -354,7 +361,7 @@
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="ic3-jk-fPx">
                                 <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                             </mapView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qpT-Fw-Dru" customClass="RoundButton" customModule="OnTheMap" customModuleProvider="target">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qpT-Fw-Dru" customClass="LoadingButton" customModule="OnTheMap" customModuleProvider="target">
                                 <rect key="frame" x="16" y="790" width="382" height="40"/>
                                 <color key="backgroundColor" red="0.0069179232229999998" green="0.56082111599999995" blue="0.7136339545" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
@@ -381,6 +388,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="finishButton" destination="qpT-Fw-Dru" id="Egu-So-0qK"/>
                         <outlet property="mapView" destination="ic3-jk-fPx" id="Vtg-00-ft6"/>
                     </connections>
                 </viewController>

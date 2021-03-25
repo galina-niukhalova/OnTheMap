@@ -1,13 +1,13 @@
 //
-//  StudentLocationModel.swift
+//  PostStudentLocation.swift
 //  OnTheMap
 //
-//  Created by Galina Niukhalova on 10/3/21.
+//  Created by Galina Niukhalova on 24/3/21.
 //
 
 import Foundation
 
-struct StudentLocation: Codable {
+struct PostStudentLocationRequest: Codable {
     let uniqueKey: String
     let firstName: String
     let lastName: String
@@ -15,5 +15,4 @@ struct StudentLocation: Codable {
     let longitude: Double
     let mapString: String
     let mediaURL: String
-    let objectId: String
 }

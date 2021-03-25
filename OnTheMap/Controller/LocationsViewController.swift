@@ -24,7 +24,7 @@ class LocationsViewController: NavigationViewController, UITableViewDataSource, 
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        studentLocations.count
+        return studentLocations.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -45,6 +45,11 @@ class LocationsViewController: NavigationViewController, UITableViewDataSource, 
         }
     }
     
+    override func refreshData() {
+        handleRefreshData {
+            self.tableView.reloadData()
+        }
+    }
     
     override func onAddLocationFinish (location: StudentLocation?) {
         guard let _ = location else {

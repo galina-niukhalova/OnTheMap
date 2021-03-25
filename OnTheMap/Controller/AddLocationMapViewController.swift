@@ -10,6 +10,12 @@ import MapKit
 
 class AddLocationMapViewController: UIViewController, MKMapViewDelegate {
     @IBOutlet var mapView: MKMapView!
+    @IBOutlet var finishButton: LoadingButton!
+    
+    var currentLocation: StudentLocation? = nil
+    var studentInformation: StudentData {
+        return (UIApplication.shared.delegate as! AppDelegate).studentInformation!
+    }
     
     var latitude: Double = 0
     var longitude: Double = 0
@@ -47,29 +53,56 @@ class AddLocationMapViewController: UIViewController, MKMapViewDelegate {
     }
     
     @IBAction func handleFinish(_ sender: Any) {
-        UdacityClient.getUserData { (response, _) in
-            guard let response = response else {
-                return
-            }
-            let studentLocation = StudentLocation(uniqueKey: response.key, firstName: response.first_name, lastName: response.last_name, latitude: self.latitude, longitude: self.longitude, mapString: self.locationString, mediaURL: self.url)
-            
-            
-            UdacityClient.postStudentLocation(studentLocation: studentLocation) { (success, error) in
-                (UIApplication.shared.delegate as! AppDelegate).studentLocations.append(studentLocation)
-                
-                if success {
-                    self.dismiss(animated: true) {
-                        if let onAddLocationFinish = self.onAddLocationFinish {
-                            onAddLocationFinish(studentLocation)
-                        }
-                    }
-                    
-                } else {
-                    if let error = error {
-                        print("postStudentLocation: \(error)")
-                    }
-                }
-            }
+        finishButton.showLoading()
+        
+        if let currentLocation = currentLocation {
+            UdacityClient.putStudentLocation(objectId: currentLocation.objectId, uniqueKey: studentInformation.key, firstName: studentInformation.firstName, lastName: studentInformation.lastName, latitude: self.latitude, longitude: self.longitude, mapString: self.locationString, mediaURL: self.url, completion: handlePutStudentLocationResponse)
+        } else {
+            UdacityClient.postStudentLocation(uniqueKey: studentInformation.key, firstName: studentInformation.firstName, lastName: studentInformation.lastName, latitude: self.latitude, longitude: self.longitude, mapString: self.locationString, mediaURL: self.url, completion: handlePostStudentLocationResponse)
         }
+    }
+    
+    func handlePostStudentLocationResponse(objectId: String?, error: Error?) {
+        guard error == nil && objectId != nil else {
+            self.alert(message: "Something went wrong, please try again", title: "Add location error")
+            return
+        }
+        
+        handleAddStudentLocation(objectId!)
+    }
+    
+    func handlePutStudentLocationResponse(success: Bool, error: Error?) {
+        guard success else {
+            self.alert(message: "Something went wrong, please try again", title: "Add location error")
+            return
+        }
+        
+        handleAddStudentLocation(currentLocation!.objectId)
+    }
+    
+    func handleAddStudentLocation(_ objectId: String) {
+        let studentLocation = StudentLocation(uniqueKey: studentInformation.key, firstName: studentInformation.firstName, lastName: studentInformation.lastName, latitude: self.latitude, longitude: self.longitude, mapString: self.locationString, mediaURL: self.url, objectId: objectId)
+        
+        
+        if let currentLocation = currentLocation {
+            // overwrite location
+            if let currentStudentLocationIndex = (UIApplication.shared.delegate as! AppDelegate).studentLocations.firstIndex(where: {
+                $0.firstName == currentLocation.firstName &&
+                    $0.lastName == currentLocation.lastName &&
+                    $0.longitude == currentLocation.longitude &&
+                    $0.latitude == currentLocation.latitude
+            }) {
+                (UIApplication.shared.delegate as! AppDelegate).studentLocations[currentStudentLocationIndex] = studentLocation
+            }
+        } else {
+            // new location
+            (UIApplication.shared.delegate as! AppDelegate).studentLocations.insert(studentLocation, at: 0)
+        }
+        
+        self.dismiss(animated: true) {
+            self.onAddLocationFinish?(studentLocation)
+        }
+        
+        self.finishButton.hideLoading()
     }
 }

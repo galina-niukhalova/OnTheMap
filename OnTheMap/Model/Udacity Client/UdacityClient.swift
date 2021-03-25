@@ -24,7 +24,7 @@ class UdacityClient {
                 if let objectId = objectId {
                     return Endpoints.base + "/StudentLocation/\(objectId)"
                 } else {
-                    return Endpoints.base + "/StudentLocation?order=-updatedAt"
+                    return Endpoints.base + "/StudentLocation?order=-updatedAt&limit=100"
                 }
             case .user(let id): return Endpoints.base + "/users/\(id)"
             }
@@ -83,41 +83,47 @@ class UdacityClient {
         }
     }
     
-    class func postStudentLocation(studentLocation: StudentLocation, completion: @escaping (Bool, Error?) -> Void) {
-        let body = studentLocation
+    class func postStudentLocation(uniqueKey: String, firstName: String, lastName: String, latitude: Double, longitude: Double, mapString: String, mediaURL: String, completion: @escaping (String?, Error?) -> Void) {
+        let body = PostStudentLocationRequest(uniqueKey: uniqueKey, firstName: firstName, lastName: lastName, latitude: latitude, longitude: longitude, mapString: mapString, mediaURL: mediaURL)
+        
         taskForPOSTRequest(url: Endpoints.studentLocation().url,
                            body: body,
                            responseType: PostStudentLocationResponse.self,
                            optional: nil) {
             (response, error) in
             if let response = response {
-                completion(response.objectId != "", nil)
+                completion(response.objectId, nil)
             } else {
-                completion(false, error)
+                completion(nil, error)
             }
         }
     }
     
-//    TODO
-    class func putStudentLocation(studentLocation: StudentLocation, completion: @escaping (Error?) -> Void) {
-//        let body = studentLocation
-
-//        var request = URLRequest(url: Endpoints.studentLocation(studentLocation.objectId).url)
+    class func putStudentLocation(objectId: String, uniqueKey: String, firstName: String, lastName: String, latitude: Double, longitude: Double, mapString: String, mediaURL: String, completion: @escaping (Bool, Error?) -> Void) {
+        let body = PostStudentLocationRequest(uniqueKey: uniqueKey, firstName: firstName, lastName: lastName, latitude: latitude, longitude: longitude, mapString: mapString, mediaURL: mediaURL)
         
-//        request.httpMethod = "PUT"
-//        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-//        request.httpBody = try! JSONEncoder().encode(body)
-//        let session = URLSession.shared
-//        let task = session.dataTask(with: request) { data, response, error in
-//            DispatchQueue.main.async {
-//                completion(error)
-//            }
-//        }
-//        task.resume()
+        var request = URLRequest(url: Endpoints.studentLocation(objectId).url)
+        
+        request.httpMethod = "PUT"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = try! JSONEncoder().encode(body)
+        let session = URLSession.shared
+        let task = session.dataTask(with: request) { data, response, error in
+            if error != nil {
+                DispatchQueue.main.async {
+                    completion(false, error)
+                }
+            }
+            
+            DispatchQueue.main.async {
+                completion(true, error)
+            }
+        }
+        task.resume()
     }
-
-    class func getUserData(completion: @escaping (UserDataResponse?, Error?) -> Void) {
-        taskForGETRequest(url: Endpoints.user(accountId).url, responseType: UserDataResponse.self, optional: TaskForGETRequestOptionalParams(firstNCharactersToSkip: 5)) { (response, error) in
+    
+    class func getUserData(completion: @escaping (StudentData?, Error?) -> Void) {
+        taskForGETRequest(url: Endpoints.user(accountId).url, responseType: StudentData.self, optional: TaskForGETRequestOptionalParams(firstNCharactersToSkip: 5)) { (response, error) in
             if error != nil {
                 DispatchQueue.main.async {
                     completion(nil, error)
@@ -175,7 +181,6 @@ class UdacityClient {
         
         request.httpMethod = "POST"
         let json = try! JSONEncoder().encode(body)
-        print("taskForPOSTRequest, json: \(json)")
         request.httpBody = json
         if let headers = optional?.headers {
             for (key, value) in headers {
@@ -205,7 +210,8 @@ class UdacityClient {
                 DispatchQueue.main.async {
                     completion(responseObject, nil)
                 }
-            } catch {
+                
+            } catch  {
                 DispatchQueue.main.async {
                     completion(nil, error)
                 }

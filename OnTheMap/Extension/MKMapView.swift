@@ -53,6 +53,7 @@ extension MKMapView {
             )
         }
         
+        self.removeAnnotations(self.annotations)
         self.addAnnotations(annotations)
     }
     

@@ -77,9 +77,7 @@ class AuthViewController: UIViewController, LoginButtonDelegate {
         checkFBLogin()
     }
     
-    func loginButtonDidLogOut(_ loginButton: FBLoginButton) {
-
-    }
+    func loginButtonDidLogOut(_ loginButton: FBLoginButton) {}
     
     func renderFBLoginButton() {
         let loginButton = FBLoginButton()
