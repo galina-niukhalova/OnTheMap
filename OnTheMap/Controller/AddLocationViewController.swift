@@ -8,7 +8,7 @@
 import UIKit
 import MapKit
 
-class AddLocationViewController: UIViewController {
+class AddLocationViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet var locationTextField: UITextField!
     @IBOutlet var URLTextField: UITextField!
     @IBOutlet var findLocationButton: LoadingButton!
@@ -19,7 +19,9 @@ class AddLocationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        checkCtaButtonStatus()
+        self.URLTextField.delegate = self
+        
+        setCtaButtonStatus()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -34,16 +36,18 @@ class AddLocationViewController: UIViewController {
         
         let geocoder = CLGeocoder()
         
+        // Convert string to geolocation
         geocoder.geocodeAddressString(locationText) { (placemarks, error) in
             guard error == nil else {
                 self.findLocationButton.hideLoading()
-                self.alert(message: "Something went wrong, please provide another location and try again", title: "Location error")
+                self.alert(message: .findLocation, title: .findLocation)
                 return
             }
             
             if let placemark = placemarks?[0] {
                 let location = placemark.location!
                 
+                // show AddLocationMapViewController if geolocation was found
                 DispatchQueue.main.async {
                     let addLocationMapViewController = self.storyboard!.instantiateViewController(withIdentifier: "AddLocationMapViewController") as! AddLocationMapViewController
                     
@@ -68,22 +72,20 @@ class AddLocationViewController: UIViewController {
     }
     
     @IBAction func handleLocationChange(_ sender: Any) {
-        checkCtaButtonStatus()
+        setCtaButtonStatus()
     }
     
     @IBAction func handleURLChange(_ sender: Any) {
-        checkCtaButtonStatus()
+        setCtaButtonStatus()
     }
     
-    func checkCtaButtonStatus() {
+    func setCtaButtonStatus() {
         let isEnabled = locationTextField.text != "" && URLTextField.text != ""
-        
-        if isEnabled {
-            findLocationButton.isEnabled = true
-            findLocationButton.alpha = 1
-        } else {
-            findLocationButton.isEnabled = false
-            findLocationButton.alpha = 0.5
-        }
+        findLocationButton.setButtonStatus(isEnabled: isEnabled)
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.view.endEditing(true)
+        return false
     }
 }

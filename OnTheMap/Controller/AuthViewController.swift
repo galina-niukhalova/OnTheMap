@@ -12,8 +12,7 @@ class AuthViewController: UIViewController, LoginButtonDelegate {
     @IBOutlet var emailTextField: UITextField!
     @IBOutlet var passwordTextField: UITextField!
     @IBOutlet var loginButton: LoadingButton!
-    
-    let udacitySignupUrl = "https://auth.udacity.com/sign-up"
+    @IBOutlet var signupView: UIStackView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,13 +30,31 @@ class AuthViewController: UIViewController, LoginButtonDelegate {
         UdacityClient.createSession(username: emailTextField.text ?? "", password: passwordTextField.text ?? "", complition: handleCreateSessionResponse)
     }
     
+    // Open Udacity website in Safari
+    @IBAction func handleSignup(_ sender: Any) {
+        let app = UIApplication.shared
+        if let url = URL(string: UdacityClient.signupURL) {
+            app.open(url)
+        }
+    }
+    
+    // Fires on typing in email field
+    @IBAction func handleEmailChange(_ sender: Any) {
+        setLoginButtonState()
+    }
+    
+    // Fires on typing in password field
+    @IBAction func handlePasswordChange(_ sender: Any) {
+        setLoginButtonState()
+    }
+    
     func handleCreateSessionResponse(error: Error?) {
         // hide loading
         loginButton.hideLoading()
         
         // show an alert if there is an error
         if let error = error {
-            self.alert(message: error.localizedDescription, title: "Login has failed")
+            self.alert(message: error.localizedDescription, title: .failedLogin)
             return
         }
         
@@ -45,58 +62,40 @@ class AuthViewController: UIViewController, LoginButtonDelegate {
         (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.changeRootViewController(identifier: "MapTabsViewController")
     }
     
-    @IBAction func handleSignup(_ sender: Any) {
-        // Open Udacity website in Safari
-        let app = UIApplication.shared
-        if let url = URL(string: udacitySignupUrl) {
-            app.open(url)
-        }
-    }
-    
-    @IBAction func handleEmailChange(_ sender: Any) {
-        setLoginButtonState()
-    }
-    
-    @IBAction func handlePasswordChange(_ sender: Any) {
-        setLoginButtonState()
-    }
-    
+    // Enable or Disable login button
     func setLoginButtonState() {
         let isEnabled = emailTextField.text != "" && passwordTextField.text != ""
-        
-        if isEnabled {
-            loginButton.isEnabled = true
-            loginButton.alpha = 1
-        } else {
-            loginButton.isEnabled = false
-            loginButton.alpha = 0.5
-        }
+        loginButton.setButtonStatus(isEnabled: isEnabled)
     }
-    
-    func loginButton(_ loginButton: FBLoginButton, didCompleteWith result: LoginManagerLoginResult?, error: Error?) {
-        checkFBLogin()
-    }
-    
-    func loginButtonDidLogOut(_ loginButton: FBLoginButton) {}
     
     func renderFBLoginButton() {
-        let loginButton = FBLoginButton()
-        let screenSize:CGRect = UIScreen.main.bounds
-        let screenHeight = screenSize.height
-        let newCenterY = screenHeight - loginButton.frame.height - 40
-        let newCenter = CGPoint(x: view.center.x, y: newCenterY)
-        loginButton.center = newCenter
+        // display fb button under Signup link
+        let spacing: CGFloat = 40
+        let fbLoginButton = FBLoginButton()
+        let positionY = signupView.frame.origin.y + signupView.frame.height + spacing
+        fbLoginButton.center = CGPoint(x: view.center.x, y: positionY)
         
+        fbLoginButton.delegate = self
         
-        loginButton.delegate = self
-        view.addSubview(loginButton)
+        view.addSubview(fbLoginButton)
     }
     
+    // Show map view if an user already logged in via facebook
     func checkFBLogin() {
         if let token = AccessToken.current,
            !token.isExpired {
             (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.changeRootViewController(identifier: "MapTabsViewController")
         }
     }
+    
+    // MARK: - LoginButtonDelegate
+    
+    // Sent to the LoginButtonDelegate when the fb button was used to login
+    func loginButton(_ loginButton: FBLoginButton, didCompleteWith result: LoginManagerLoginResult?, error: Error?) {
+        checkFBLogin()
+    }
+    
+    // Sent to the LoginButtonDelegate when the fb button was used to logout
+    func loginButtonDidLogOut(_ loginButton: FBLoginButton) {}
 }
 

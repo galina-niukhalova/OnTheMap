@@ -64,7 +64,7 @@ class AddLocationMapViewController: UIViewController, MKMapViewDelegate {
     
     func handlePostStudentLocationResponse(objectId: String?, error: Error?) {
         guard error == nil && objectId != nil else {
-            self.alert(message: "Something went wrong, please try again", title: "Add location error")
+            self.alert(message: .general, title: .addLocation)
             return
         }
         
@@ -73,7 +73,7 @@ class AddLocationMapViewController: UIViewController, MKMapViewDelegate {
     
     func handlePutStudentLocationResponse(success: Bool, error: Error?) {
         guard success else {
-            self.alert(message: "Something went wrong, please try again", title: "Add location error")
+            self.alert(message: .general, title: .addLocation)
             return
         }
         

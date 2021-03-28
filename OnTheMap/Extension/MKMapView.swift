@@ -13,7 +13,6 @@ extension MKMapView {
         let lat = CLLocationDegrees(latitude)
         let long = CLLocationDegrees(longitude)
         
-        // The lat and long are used to create a CLLocationCoordinates2D instance.
         let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
         let annotation = MKPointAnnotation()
         

@@ -48,4 +48,14 @@ class LoadingButton: RoundButton {
         let yCenterConstraint = NSLayoutConstraint(item: self, attribute: .centerY, relatedBy: .equal, toItem: activityIndicator, attribute: .centerY, multiplier: 1, constant: 0)
         self.addConstraint(yCenterConstraint)
     }
+    
+    func setButtonStatus(isEnabled: Bool) {
+        if isEnabled {
+            self.isEnabled = true
+            self.alpha = 1
+        } else {
+            self.isEnabled = false
+            self.alpha = 0.5
+        }
+    }
 }

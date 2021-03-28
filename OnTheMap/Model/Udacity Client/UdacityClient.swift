@@ -9,6 +9,7 @@ import Foundation
 
 class UdacityClient {
     static var accountId: String = ""
+    static let signupURL = "https://auth.udacity.com/sign-up"
     
     enum Endpoints {
         static let base = "https://onthemap-api.udacity.com/v1"
@@ -40,7 +41,8 @@ class UdacityClient {
         
         taskForPOSTRequest(url: Endpoints.session.url,
                            body: body, responseType: CreateSessionResponse.self,
-                           optional: TaskForPOSTRequestOptionalParams(headers: ["application/json" : "Accept"], firstNCharactersToSkip: 5)) {
+                           headers: ["application/json" : "Accept"],
+                           firstNCharactersToSkipInResponse: 5) {
             (response, error) in
             if let response = response {
                 accountId = response.account.key
@@ -74,7 +76,7 @@ class UdacityClient {
     }
     
     class func getStudentLocations(complition: @escaping ([StudentLocation], Error?) -> Void) {
-        taskForGETRequest(url: Endpoints.studentLocation().url, responseType: GetStudentLocationsResponse.self, optional: nil) { (response, error) in
+        taskForGETRequest(url: Endpoints.studentLocation().url, responseType: GetStudentLocationsResponse.self) { (response, error) in
             if let response = response {
                 complition(response.results, nil)
             } else {
@@ -88,8 +90,7 @@ class UdacityClient {
         
         taskForPOSTRequest(url: Endpoints.studentLocation().url,
                            body: body,
-                           responseType: PostStudentLocationResponse.self,
-                           optional: nil) {
+                           responseType: PostStudentLocationResponse.self) {
             (response, error) in
             if let response = response {
                 completion(response.objectId, nil)
@@ -123,26 +124,18 @@ class UdacityClient {
     }
     
     class func getUserData(completion: @escaping (StudentData?, Error?) -> Void) {
-        taskForGETRequest(url: Endpoints.user(accountId).url, responseType: StudentData.self, optional: TaskForGETRequestOptionalParams(firstNCharactersToSkip: 5)) { (response, error) in
+        taskForGETRequest(url: Endpoints.user(accountId).url, responseType: StudentData.self, firstNCharactersToSkipInResponse: 5) { (response, error) in
             if error != nil {
-                DispatchQueue.main.async {
-                    completion(nil, error)
-                }
+                completion(nil, error)
             }
             
             if let response = response {
-                DispatchQueue.main.async {
-                    completion(response, nil)
-                }
+                completion(response, nil)
             }
         }
     }
     
-    struct TaskForGETRequestOptionalParams {
-        let firstNCharactersToSkip: Int
-    }
-    
-    class func taskForGETRequest<ResponseType: Decodable>(url: URL, responseType: ResponseType.Type, optional: TaskForGETRequestOptionalParams?, completion: @escaping (ResponseType?, Error?) -> Void) -> Void {
+    class func taskForGETRequest<ResponseType: Decodable>(url: URL, responseType: ResponseType.Type, firstNCharactersToSkipInResponse: Int? = nil, completion: @escaping (ResponseType?, Error?) -> Void) -> Void {
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
             guard var data = data else {
                 DispatchQueue.main.async {
@@ -152,7 +145,7 @@ class UdacityClient {
             }
             
             let decoder = JSONDecoder()
-            if let firstNCharactersToSkip = optional?.firstNCharactersToSkip {
+            if let firstNCharactersToSkip = firstNCharactersToSkipInResponse {
                 data = data.subdata(in: firstNCharactersToSkip..<data.count)
             }
             
@@ -171,18 +164,20 @@ class UdacityClient {
         task.resume()
     }
     
-    struct TaskForPOSTRequestOptionalParams {
-        let headers: [String: String]
-        let firstNCharactersToSkip: Int
-    }
-    
-    class func taskForPOSTRequest<RequestType: Encodable, ResponseType: Decodable>(url: URL, body: RequestType, responseType: ResponseType.Type, optional: TaskForPOSTRequestOptionalParams?, completion: @escaping (ResponseType?, Error?) -> Void) {
+    class func taskForPOSTRequest<RequestType: Encodable, ResponseType: Decodable>(
+        url: URL,
+        body: RequestType,
+        responseType: ResponseType.Type,
+        headers: [String: String]? = nil,
+        firstNCharactersToSkipInResponse: Int? = nil,
+        completion: @escaping (ResponseType?, Error?) -> Void
+    ) {
         var request = URLRequest(url: url)
         
         request.httpMethod = "POST"
         let json = try! JSONEncoder().encode(body)
         request.httpBody = json
-        if let headers = optional?.headers {
+        if let headers = headers {
             for (key, value) in headers {
                 request.addValue(key, forHTTPHeaderField: value)
             }
@@ -198,7 +193,7 @@ class UdacityClient {
                 return
             }
             
-            if let firstNCharactersToSkip = optional?.firstNCharactersToSkip {
+            if let firstNCharactersToSkip = firstNCharactersToSkipInResponse {
                 data = data.subdata(in: firstNCharactersToSkip..<data.count)
             }
             

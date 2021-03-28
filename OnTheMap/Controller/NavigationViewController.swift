@@ -57,6 +57,7 @@ class NavigationViewController: UIViewController {
     
     func handleRefreshData(completion: @escaping () -> Void) {
         setNavigationItems(loading: true)
+        
         UdacityClient.getStudentLocations { (locations, error) in
             self.setNavigationItems(loading: false)
             
@@ -89,7 +90,7 @@ class NavigationViewController: UIViewController {
     @objc func addLocation() {
         // check if user data exists
         guard let _ = studentInformation else {
-            self.alert(message: "Please update your first and last name", title: "Student information doesn't exist")
+            self.alert(message: .updateUserInfo, title: .missingUserData)
             return
         }
         
@@ -98,8 +99,8 @@ class NavigationViewController: UIViewController {
             $0.firstName == self.studentInformation!.firstName && $0.lastName == self.studentInformation!.lastName
         }) {
             self.confirmationAlert(
-                message: "You have already posted a student location. Would you like to overwrite your current location?",
-                title: "Confirm a new location",
+                message: .overwriteCurrentLocation,
+                title: .confirmNewLocation,
                 confirmButtonTitle: "Overwrite",
                 onConfirm: { self.handleLocationOverwrite(currentLocation) }
             )

@@ -14,8 +14,8 @@ class MapViewController: NavigationViewController, MKMapViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        fetchUserData { zoomMapToStudentLocation() }
-        fetchStudentLocations { zoomMapToStudentLocation() }
+        fetchUserData()
+        fetchStudentLocations()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -25,10 +25,10 @@ class MapViewController: NavigationViewController, MKMapViewDelegate {
         zoomMapToStudentLocation()
     }
     
-    func fetchStudentLocations(completion: () -> Void) {
+    func fetchStudentLocations() {
         UdacityClient.getStudentLocations { (locations, error) in
             guard error == nil else {
-                self.alert(message: "Something went wrong, please try again", title: "Get student locations error")
+                self.alert(message: .general, title: .getStudentLocation)
                 return
             }
             
@@ -39,20 +39,23 @@ class MapViewController: NavigationViewController, MKMapViewDelegate {
         }
     }
     
-    func fetchUserData(completion: () -> Void) {
+    func fetchUserData() {
         UdacityClient.getUserData { (studentInformation, error) in
             guard error == nil else {
-                self.alert(message: "Something went wrong, please try again", title: "Get user data error")
+                self.alert(message: .general, title: .getUserData)
                 return
             }
             
             (UIApplication.shared.delegate as! AppDelegate).studentInformation = studentInformation
+            
+            self.zoomMapToStudentLocation()
         }
     }
     
     func zoomMapToStudentLocation() {
         guard let studentInformation = studentInformation else { return }
         
+        // zoom map if user already posted they location
         if let currentStudentLocation = studentLocations.first(where: {
             $0.firstName == studentInformation.firstName && $0.lastName == studentInformation.lastName
         }) {
@@ -60,12 +63,53 @@ class MapViewController: NavigationViewController, MKMapViewDelegate {
         }
     }
     
-    // MARK: - MKMapViewDelegate
+    // Callback function fires on adding a new location
+    override func onAddLocationFinish (location: StudentLocation?) {
+        guard let location = location else {
+            return
+        }
+        
+        // remove existing pin in case of location override
+        if let currentLocation = currentLocation {
+            if let currentAnnotation = mapView.annotations.first(where: {
+                $0.coordinate.latitude == currentLocation.latitude &&
+                    $0.coordinate.longitude == currentLocation.longitude &&
+                    $0.title == "\(currentLocation.firstName) \(currentLocation.lastName)" &&
+                    $0.subtitle == currentLocation.mediaURL
+            }) {
+                mapView.removeAnnotation(currentAnnotation)
+            }
+        }
+        
+        // add new pin
+        mapView.addAnnotation(
+            latitude: location.latitude,
+            longitude: location.longitude,
+            firstName: location.firstName,
+            lastName: location.lastName,
+            mediaURL: location.mediaURL
+        )
+        
+        // save user location
+        currentLocation = location
+        
+        // zoom map to a new location
+        zoomMapToStudentLocation()
+    }
     
-    // Here we create a view with a "right callout accessory view". You might choose to look into other
-    // decoration alternatives. Notice the similarity between this method and the cellForRowAtIndexPath
-    // method in TableViewDataSource.
+    // Callback funnction fires on clicking refresh icon
+    override func refreshData() {
+        handleRefreshData {
+            self.mapView.addAnnotations(studentLocations: self.studentLocations)
+            self.zoomMapToStudentLocation()
+        }
+    }
+    
+    
+    // MARK: - MKMapViewDelegate
+        
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        // Set pin view
         let reuseId = "pin"
         
         var pinView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseId) as? MKPinAnnotationView
@@ -84,8 +128,7 @@ class MapViewController: NavigationViewController, MKMapViewDelegate {
     }
     
     
-    // This delegate method is implemented to respond to taps. It opens the system browser
-    // to the URL specified in the annotationViews subtitle property.
+    // open location URL on pin description click
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         if control == view.rightCalloutAccessoryView {
             let app = UIApplication.shared
@@ -95,41 +138,6 @@ class MapViewController: NavigationViewController, MKMapViewDelegate {
                 }
                 
             }
-        }
-    }
-    
-    override func onAddLocationFinish (location: StudentLocation?) {
-        guard let location = location else {
-            return
-        }
-        
-        if let currentLocation = currentLocation {
-            if let currentAnnotation = mapView.annotations.first(where: {
-                $0.coordinate.latitude == currentLocation.latitude &&
-                    $0.coordinate.longitude == currentLocation.longitude &&
-                    $0.title == "\(currentLocation.firstName) \(currentLocation.lastName)" &&
-                    $0.subtitle == currentLocation.mediaURL
-            }) {
-                mapView.removeAnnotation(currentAnnotation)
-            }
-        }
-        
-        mapView.addAnnotation(
-            latitude: location.latitude,
-            longitude: location.longitude,
-            firstName: location.firstName,
-            lastName: location.lastName,
-            mediaURL: location.mediaURL
-        )
-        
-        currentLocation = location
-        zoomMapToStudentLocation()
-    }
-    
-    override func refreshData() {
-        handleRefreshData {
-            self.mapView.addAnnotations(studentLocations: self.studentLocations)
-            self.zoomMapToStudentLocation()
         }
     }
 }

@@ -104,11 +104,12 @@
                         <outlet property="emailTextField" destination="1rF-cr-pmz" id="5Gn-ln-LCZ"/>
                         <outlet property="loginButton" destination="iU6-YD-clf" id="TqV-ox-f33"/>
                         <outlet property="passwordTextField" destination="64H-JK-R7E" id="oFi-8S-WRf"/>
+                        <outlet property="signupView" destination="aqx-2w-RNG" id="hLN-Oq-SNa"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-962" y="19"/>
+            <point key="canvasLocation" x="-962.27678571428567" y="18.840579710144929"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="j7o-fW-WcI">
