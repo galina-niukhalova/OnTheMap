@@ -39,8 +39,10 @@ class AddLocationViewController: UIViewController, UITextFieldDelegate {
         // Convert string to geolocation
         geocoder.geocodeAddressString(locationText) { (placemarks, error) in
             guard error == nil else {
-                self.findLocationButton.hideLoading()
-                self.alert(message: .findLocation, title: .findLocation)
+                DispatchQueue.main.async {
+                    self.findLocationButton.hideLoading()
+                    self.alert(message: .findLocation, title: .findLocation)
+                }
                 return
             }
             
