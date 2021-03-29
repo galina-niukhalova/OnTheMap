@@ -36,7 +36,7 @@ class AddLocationMapViewController: UIViewController, MKMapViewDelegate {
             longitude: longitude,
             mediaURL: url
         )
-        mapView.setCenter(latitude: latitude,longitude: longitude)
+        mapView.zoomIntoRegion(latitude: latitude, longitude: longitude)
     }
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {

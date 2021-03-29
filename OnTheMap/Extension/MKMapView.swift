@@ -37,6 +37,17 @@ extension MKMapView {
         self.setCenter(coordinate, animated: false)
     }
     
+    func zoomIntoRegion(latitude: Double, longitude: Double) {
+        let latDelta:CLLocationDegrees = 0.05
+        let lonDelta:CLLocationDegrees = 0.05
+        
+        let span = MKCoordinateSpan(latitudeDelta: latDelta, longitudeDelta: lonDelta)
+        let location = CLLocationCoordinate2DMake(latitude, longitude)
+        let region = MKCoordinateRegion(center: location, span: span)
+        
+        self.setRegion(region, animated: false)
+    }
+    
     func addAnnotations(studentLocations: [StudentLocation]) {
         var annotations = [MKPointAnnotation]()
         
