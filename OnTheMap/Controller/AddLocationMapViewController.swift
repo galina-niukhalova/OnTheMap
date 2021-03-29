@@ -13,8 +13,13 @@ class AddLocationMapViewController: UIViewController, MKMapViewDelegate {
     @IBOutlet var finishButton: LoadingButton!
     
     var currentLocation: StudentLocation? = nil
-    var studentInformation: StudentData {
-        return (UIApplication.shared.delegate as! AppDelegate).studentInformation!
+    
+    var studentLocations: [StudentLocation] {
+        return StudentInformation.sharedInstance.locations
+    }
+    
+    var studentPersonalInformation: StudentData {
+        return StudentInformation.sharedInstance.studentPersonalInformation!
     }
     
     var latitude: Double = 0
@@ -56,9 +61,9 @@ class AddLocationMapViewController: UIViewController, MKMapViewDelegate {
         finishButton.showLoading()
         
         if let currentLocation = currentLocation {
-            UdacityClient.putStudentLocation(objectId: currentLocation.objectId, uniqueKey: studentInformation.key, firstName: studentInformation.firstName, lastName: studentInformation.lastName, latitude: self.latitude, longitude: self.longitude, mapString: self.locationString, mediaURL: self.url, completion: handlePutStudentLocationResponse)
+            UdacityClient.putStudentLocation(objectId: currentLocation.objectId, uniqueKey: studentPersonalInformation.key, firstName: studentPersonalInformation.firstName, lastName: studentPersonalInformation.lastName, latitude: self.latitude, longitude: self.longitude, mapString: self.locationString, mediaURL: self.url, completion: handlePutStudentLocationResponse)
         } else {
-            UdacityClient.postStudentLocation(uniqueKey: studentInformation.key, firstName: studentInformation.firstName, lastName: studentInformation.lastName, latitude: self.latitude, longitude: self.longitude, mapString: self.locationString, mediaURL: self.url, completion: handlePostStudentLocationResponse)
+            UdacityClient.postStudentLocation(uniqueKey: studentPersonalInformation.key, firstName: studentPersonalInformation.firstName, lastName: studentPersonalInformation.lastName, latitude: self.latitude, longitude: self.longitude, mapString: self.locationString, mediaURL: self.url, completion: handlePostStudentLocationResponse)
         }
     }
     
@@ -81,22 +86,21 @@ class AddLocationMapViewController: UIViewController, MKMapViewDelegate {
     }
     
     func handleAddStudentLocation(_ objectId: String) {
-        let studentLocation = StudentLocation(uniqueKey: studentInformation.key, firstName: studentInformation.firstName, lastName: studentInformation.lastName, latitude: self.latitude, longitude: self.longitude, mapString: self.locationString, mediaURL: self.url, objectId: objectId)
-        
+        let studentLocation = StudentLocation(uniqueKey: studentPersonalInformation.key, firstName: studentPersonalInformation.firstName, lastName: studentPersonalInformation.lastName, latitude: self.latitude, longitude: self.longitude, mapString: self.locationString, mediaURL: self.url, objectId: objectId)
         
         if let currentLocation = currentLocation {
             // overwrite location
-            if let currentStudentLocationIndex = (UIApplication.shared.delegate as! AppDelegate).studentLocations.firstIndex(where: {
+            if let currentStudentLocationIndex = studentLocations.firstIndex(where: {
                 $0.firstName == currentLocation.firstName &&
                     $0.lastName == currentLocation.lastName &&
                     $0.longitude == currentLocation.longitude &&
                     $0.latitude == currentLocation.latitude
             }) {
-                (UIApplication.shared.delegate as! AppDelegate).studentLocations[currentStudentLocationIndex] = studentLocation
+                StudentInformation.sharedInstance.locations[currentStudentLocationIndex] = studentLocation
             }
         } else {
             // new location
-            (UIApplication.shared.delegate as! AppDelegate).studentLocations.insert(studentLocation, at: 0)
+            StudentInformation.sharedInstance.locations.insert(studentLocation, at: 0)
         }
         
         self.dismiss(animated: true) {

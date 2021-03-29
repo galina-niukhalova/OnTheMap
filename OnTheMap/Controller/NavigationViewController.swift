@@ -11,11 +11,11 @@ import FBSDKLoginKit
 
 class NavigationViewController: UIViewController {
     var studentLocations: [StudentLocation] {
-        return (UIApplication.shared.delegate as! AppDelegate).studentLocations
+        return StudentInformation.sharedInstance.locations
     }
     
-    var studentInformation: StudentData? {
-        return (UIApplication.shared.delegate as! AppDelegate).studentInformation
+    var studentPersonalInformation: StudentData? {
+        return StudentInformation.sharedInstance.studentPersonalInformation
     }
     
     var currentLocation: StudentLocation?
@@ -62,10 +62,11 @@ class NavigationViewController: UIViewController {
             self.setNavigationItems(loading: false)
             
             if error != nil {
+                self.alert(message: .general, title: .refreshLocations)
                 return
             }
             
-            (UIApplication.shared.delegate as! AppDelegate).studentLocations = locations
+            StudentInformation.sharedInstance.locations = locations
             completion()
         }
     }
@@ -89,14 +90,15 @@ class NavigationViewController: UIViewController {
     // Show AddLocation view controller
     @objc func addLocation() {
         // check if user data exists
-        guard let _ = studentInformation else {
+        guard let _ = studentPersonalInformation else {
             self.alert(message: .updateUserInfo, title: .missingUserData)
             return
         }
         
         // check if the student already posted a location
         if let currentLocation = studentLocations.first(where: {
-            $0.firstName == self.studentInformation!.firstName && $0.lastName == self.studentInformation!.lastName
+            $0.firstName == self.studentPersonalInformation!.firstName
+                && $0.lastName == self.studentPersonalInformation!.lastName
         }) {
             self.confirmationAlert(
                 message: .overwriteCurrentLocation,

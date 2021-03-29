@@ -16,6 +16,7 @@ enum ErrorMessage: String {
 
 enum ErrorTitle: String {
     case addLocation = "Add location error"
+    case refreshLocations = "Refresh locations error"
     case findLocation = "Find location error"
     case missingUserData = "Student information doesn't exist"
     case confirmNewLocation = "Confirm a new location"

@@ -50,12 +50,7 @@ class LoadingButton: RoundButton {
     }
     
     func setButtonStatus(isEnabled: Bool) {
-        if isEnabled {
-            self.isEnabled = true
-            self.alpha = 1
-        } else {
-            self.isEnabled = false
-            self.alpha = 0.5
-        }
+        self.isEnabled = isEnabled
+        self.alpha = isEnabled ? 1 : 0.5
     }
 }

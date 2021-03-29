@@ -10,12 +10,6 @@ import FBSDKCoreKit
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
-    // Most recent locations posted by students, downloaded from API
-    var studentLocations = [StudentLocation]()
-    
-    // Current user information
-    var studentInformation: StudentData?
-    
     
     // MARK: Facebook setup
     func application(

@@ -21,7 +21,7 @@ class MapViewController: NavigationViewController, MKMapViewDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        self.mapView.addAnnotations(studentLocations: studentLocations)
+        mapView.addAnnotations(studentLocations: studentLocations)
         zoomMapToStudentLocation()
     }
     
@@ -32,10 +32,10 @@ class MapViewController: NavigationViewController, MKMapViewDelegate {
                 return
             }
             
-            (UIApplication.shared.delegate as! AppDelegate).studentLocations = locations
-            
+            StudentInformation.sharedInstance.locations = locations
             self.mapView.addAnnotations(studentLocations: locations)
             self.zoomMapToStudentLocation()
+            
         }
     }
     
@@ -46,18 +46,17 @@ class MapViewController: NavigationViewController, MKMapViewDelegate {
                 return
             }
             
-            (UIApplication.shared.delegate as! AppDelegate).studentInformation = studentInformation
-            
+            StudentInformation.sharedInstance.studentPersonalInformation = studentInformation
             self.zoomMapToStudentLocation()
         }
     }
     
     func zoomMapToStudentLocation() {
-        guard let studentInformation = studentInformation else { return }
+        guard let studentPersonalInformation = studentPersonalInformation else { return }
         
         // zoom map if user already posted they location
         if let currentStudentLocation = studentLocations.first(where: {
-            $0.firstName == studentInformation.firstName && $0.lastName == studentInformation.lastName
+            $0.firstName == studentPersonalInformation.firstName && $0.lastName == studentPersonalInformation.lastName
         }) {
             self.mapView.setCenter(latitude: currentStudentLocation.latitude, longitude: currentStudentLocation.longitude)
         }
