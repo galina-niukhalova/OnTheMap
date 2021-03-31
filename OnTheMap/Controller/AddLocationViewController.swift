@@ -19,7 +19,8 @@ class AddLocationViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.URLTextField.delegate = self
+        URLTextField.delegate = self
+        locationTextField.delegate = self
         
         setCtaButtonStatus()
     }
@@ -86,8 +87,23 @@ class AddLocationViewController: UIViewController, UITextFieldDelegate {
         findLocationButton.setButtonStatus(isEnabled: isEnabled)
     }
     
+    
+    // MARK: UITextFieldDelegate
+    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        // move cursor from location text field to URL
+        if textField == locationTextField {
+            URLTextField.becomeFirstResponder()
+            return false
+        }
+        
+        // Hide a keyboard on click Enter
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    // Hide a keyboard on touch outside of text field
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
-        return false
     }
 }

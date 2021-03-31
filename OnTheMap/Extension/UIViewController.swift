@@ -8,6 +8,8 @@
 import UIKit
 
 extension UIViewController {
+    // Mark: Alert
+    
     func alert(message: ErrorMessage, title: ErrorTitle) {
         alert(message: message.rawValue, title: title.rawValue)
     }

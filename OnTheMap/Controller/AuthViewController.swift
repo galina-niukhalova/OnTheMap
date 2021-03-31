@@ -8,7 +8,7 @@
 import UIKit
 import FBSDKLoginKit
 
-class AuthViewController: UIViewController, LoginButtonDelegate {
+class AuthViewController: UIViewController, LoginButtonDelegate, UITextFieldDelegate {
     @IBOutlet var emailTextField: UITextField!
     @IBOutlet var passwordTextField: UITextField!
     @IBOutlet var loginButton: LoadingButton!
@@ -16,6 +16,9 @@ class AuthViewController: UIViewController, LoginButtonDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        emailTextField.delegate = self
+        passwordTextField.delegate = self
         
         setLoginButtonState()
         renderFBLoginButton()
@@ -97,5 +100,25 @@ class AuthViewController: UIViewController, LoginButtonDelegate {
     
     // Sent to the LoginButtonDelegate when the fb button was used to logout
     func loginButtonDidLogOut(_ loginButton: FBLoginButton) {}
+    
+    
+    // MARK: UITextFieldDelegate
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        // Move cursor from email to password text field
+        if textField == emailTextField {
+            passwordTextField.becomeFirstResponder()
+            return false
+        }
+        
+        // Hide a keyboard on click Enter
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    // Hide a keyboard on touch outside of text field
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
 }
 

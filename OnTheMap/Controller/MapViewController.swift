@@ -106,7 +106,7 @@ class MapViewController: NavigationViewController, MKMapViewDelegate {
     
     
     // MARK: - MKMapViewDelegate
-        
+    
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         // Set pin view
         let reuseId = "pin"
