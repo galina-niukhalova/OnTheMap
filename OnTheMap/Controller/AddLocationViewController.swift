@@ -16,6 +16,8 @@ class AddLocationViewController: UIViewController, UITextFieldDelegate {
     var onAddLocationFinish: ((_: StudentLocation?) -> Void)?
     var currentLocation: StudentLocation? = nil
     
+    // MARK: Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -30,6 +32,20 @@ class AddLocationViewController: UIViewController, UITextFieldDelegate {
         
         findLocationButton.hideLoading()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        subscribeToKeyboardNotifications()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        unsubscribeFromKeyboardNotifications()
+    }
+    
+    // MARK: Actions
     
     @IBAction func handleFindLocation(_ sender: Any) {
         findLocationButton.showLoading()
@@ -105,5 +121,42 @@ class AddLocationViewController: UIViewController, UITextFieldDelegate {
     // Hide a keyboard on touch outside of text field
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
+    }
+    
+    
+    // MARK: Keyboard notifications
+    
+    @objc func keyboardWillShow(_ notification: Notification) {
+        guard view.frame.origin.y == 0 else {
+            return
+        }
+        
+        if locationTextField.isFirstResponder ||
+            URLTextField.isFirstResponder {
+            view.frame.origin.y -= getKeyboardHeight(notification) / 2
+        }
+    }
+    
+    @objc func keyboardWillHide(_ notification: Notification) {
+        if locationTextField.isFirstResponder ||
+            URLTextField.isFirstResponder {
+            view.frame.origin.y = 0
+        }
+    }
+    
+    func subscribeToKeyboardNotifications() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    func unsubscribeFromKeyboardNotifications() {
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    func getKeyboardHeight(_ notification: Notification) -> CGFloat {
+        let userInfo = notification.userInfo
+        let keyboardSize = userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! NSValue
+        return keyboardSize.cgRectValue.height
     }
 }
